@@ -2,6 +2,9 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+	"strings"
+	"task/db"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -22,14 +25,20 @@ accepts a single string as an argument. example:
 task add "eat cheese"`,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		task := args[0]
+		task := strings.Join(args, " ")
+		_, err := db.CreateTask(task)
+		if err != nil {
+			fmt.Println("failed to create task: ", err.Error())
+			os.Exit(1)
+		}
+
 		days, _ := cmd.Flags().GetInt("days")
 		fmt.Println("days:", days)
 
 		t := time.Now().Format("2006-Jan-01 15:04")
 		msg := fmt.Sprintf("%s    added task: %s", t, task)
 
-		fmt.Sprintf("due in: %v days", days)
+		msg += fmt.Sprintf(" due in: %v days", days)
 		fmt.Println(msg)
 	},
 }
