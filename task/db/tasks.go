@@ -45,6 +45,29 @@ func CreateTask(task string) (int, error) {
 	return id, err
 }
 
+func AllTasks() ([]Task, error) {
+
+	var tasks []Task
+
+	err := db.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket(taskBucket)
+		//cursos
+		c := b.Cursor()
+
+		for k, v := c.First(); k != nil; k, v = c.Next() {
+			tasks = append(tasks, Task{
+				Key:   byteToInt(k),
+				Value: string(v),
+			})
+		}
+		return nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	return tasks, nil
+}
+
 //intToByte returns an 8-byte big endian representation of v
 func intToByte(v int) []byte {
 	b := make([]byte, 8)
