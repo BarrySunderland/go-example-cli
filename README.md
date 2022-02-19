@@ -1,12 +1,11 @@
 # go-example-cli
-example of making a basic cli tool using go
+examples of basic cli tools using go
 
-
+### task
+simple task tracking cli using boltDB   
+from [gophercises](https://courses.calhoun.io/courses/cor_gophercises)  
 https://courses.calhoun.io/lessons/les_goph_36 
 
+[bolt db](https://github.com/boltdb/bolt)   
 
-
-
-bolt db   
-
-https://github.com/mitchellh/go-homedir 
+get users home directory [homedir](https://github.com/mitchellh/go-homedir)   
