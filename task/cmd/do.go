@@ -7,6 +7,7 @@ package cmd
 import (
 	"fmt"
 	"strconv"
+	"task/db"
 
 	"github.com/spf13/cobra"
 )
@@ -17,15 +18,21 @@ var doCmd = &cobra.Command{
 	Short: "mark a task as done and remove it from the active list",
 	Run: func(cmd *cobra.Command, args []string) {
 		var ids []int
+
 		for _, arg := range args {
 			id, err := strconv.Atoi(arg)
 			if err != nil {
 				fmt.Printf("failed to parse arg %v as task number \n", arg)
 			}
 			ids = append(ids, id)
-		}
-		fmt.Println(ids)
 
+			for _, id := range ids {
+				err := db.DeleteTask(id)
+				if err != nil {
+					fmt.Printf("could not delete task %d: %s\n", id, err.Error())
+				}
+			}
+		}
 	},
 }
 
