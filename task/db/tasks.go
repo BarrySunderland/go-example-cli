@@ -68,6 +68,16 @@ func AllTasks() ([]Task, error) {
 	return tasks, nil
 }
 
+func DeleteTask(key int) error {
+
+	err := db.Update(func(tx *bolt.Tx) error {
+		b := tx.Bucket(taskBucket)
+		return b.Delete(intToByte(key))
+	})
+	return err
+
+}
+
 //intToByte returns an 8-byte big endian representation of v
 func intToByte(v int) []byte {
 	b := make([]byte, 8)
