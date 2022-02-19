@@ -10,7 +10,7 @@ import (
 var days int
 
 func init() {
-	rootCmd.AddCommand(addTask)
+	RootCmd.AddCommand(addTask)
 	addTask.Flags().IntVarP(&days, "days", "d", 1, "Number of days to complete the task e.g. 1 for a task that's due tomorrow")
 }
 
